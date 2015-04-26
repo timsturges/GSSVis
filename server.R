@@ -51,9 +51,15 @@ shinyServer(
                 gstp <- reactive({prop.table(gst())})
                 
                 output$text1 <- renderText({
-                        paste("You are looking at the relationship between ",
-                              vr1()," and ",vr2(),"in the year",
-                              yrr())
+                        paste("H0: Attidues on National Spending on",vr1(),
+                              " and ",vr2(),"in the year",yrr(),"are independent 
+                              of each other.")
+                })
+                
+                output$text2 <- renderText({
+                        paste("Ha: Attidues on National Spending on",vr1(),
+                              " and ",vr2(),"in the year",yrr(),"are not independent 
+                              of each other.")
                 })
 
                 output$mplot <- renderPlot({
@@ -72,19 +78,17 @@ shinyServer(
                         gstp() * 100
                 })
                 
-                output$text2 <- renderPrint({
+                output$text3 <- renderPrint({
                         summary(gst())                         
                 })
                 
-                output$text3 <- renderText({
+                output$text4 <- renderText({
                         if (summary(gst())$p.value > 0.05) 
                                 paste("Based on the observed p-value we are unable 
-                                      to reject the null hypothesis. We cannot conclude 
-                                      these variables are related at the 5% significance level.")
+                                      to reject the null hypothesis. Attidues on National Spending on",vr1(),
+                                      " and ",vr2(),"in the year",yrr(),"are independent of each other.")
                         else 
-                                paste("Based on the observed p-value we must reject 
-                                      the null hypothesis and conclude that attitudes 
-                                      regarding the two selected variables are related 
-                                      at the 5% significance level.")
+                                paste("Based on the observed p-value we are must reject the null hypothesis in favor of the alternative. Attidues on National Spending on",vr1(),
+                                      " and ",vr2(),"in the year",yrr(),"are not independent each other.")
                 })
 })
